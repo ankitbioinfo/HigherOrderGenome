@@ -3,23 +3,24 @@
 import numpy as np 
 
 import os 
+'''
 answer = os.path.isdir('ContactPb1')
 
 if answer==True:
 	pass
 else:
 	os.mkdir('ContactPb1')
+'''
 
-
-answer=os.path.isdir('SpatialDistance')
+answer=os.path.isdir('SpatialDistanceJune19_2018')
 if answer==True:
 	pass
 else:
-	os.mkdir('SpatialDistance')
+	os.mkdir('SpatialDistanceJune19_2018')
 			
 fw=[]
 for i in range(46):
-	fw.append(open('SpatialDistance/Spatial_Chr_'+str(i+1)+'.dat','w'))
+	fw.append(open('SpatialDistanceJune19_2018/Spatial_Chr_'+str(i+1)+'.dat','w'))
 
 
 
@@ -43,14 +44,7 @@ for i in range(noc):
 startPos=9991
 endPos=10001+1
 
-M1=np.zeros((46,250),dtype=np.float)
-M2=np.zeros((46,250),dtype=np.float)
-M3=np.zeros((46,250),dtype=np.float)
-M4=np.zeros((46,250),dtype=np.float)
-M5=np.zeros((46,250),dtype=np.float)
-M6=np.zeros((46,250),dtype=np.float)
-M7=np.zeros((46,250),dtype=np.float)
-M8=np.zeros((46,250),dtype=np.float)
+radius=17.2
 
 value=np.zeros((46),dtype=np.object)
 chromosome=np.zeros((46),dtype=np.object)
@@ -79,7 +73,7 @@ for filen in range(startPos,endPos,20):
 					else:
 						start=csize[chro-2]
 					#print "ankit",chro,l[0],start,int(l[0])-start-1
-					chromosome[chro-1][int(l[0])-start-1,:]=[float(l[3]),float(l[4]),float(l[5])]
+					chromosome[chro-1][int(l[0])-start-1,:]=[float(l[3])/radius,float(l[4])/radius,float(l[5])/radius  ]
 			
 
 	for p in range(noc):
@@ -89,27 +83,11 @@ for filen in range(startPos,endPos,20):
 			for j in range(i+1,asize[p]):
 					#print p,i,j
 					sub_vec=np.subtract(chromosome[p][i],chromosome[p][j])
-					dist=np.linalg.norm(sub_vec)
-					
-					if dist<=1.0:
-						M1[p][j-i]+=1
-					if dist<=1.25:
-						M2[p][j-i]+=1					
-					if dist<=1.5:
-						M3[p][j-i]+=1
-					if dist<=1.75:
-						M4[p][j-i]+=1
-					if dist<=2.0:
-						M5[p][j-i]+=1					
-					if dist<=2.5:
-						M6[p][j-i]+=1
-					if dist<=3.0:
-						M7[p][j-i]+=1
-					if dist<=4.0:
-						M8[p][j-i]+=1
-
+					dist=np.linalg.norm(sub_vec)						
+					#print chromosome[p][i],chromosome[p][j], dist 
 					M[j-i]+=dist
 					count[j-i]+=1.0
+		
 		value[p]+=M[1:]/count[1:]
 			
 		
@@ -122,11 +100,6 @@ for filen in range(startPos,endPos,20):
 print "no of frame ", nof
 
 
-for p in range(noc):
-	ff=open('ContactPb1/contact'+str(p+1)+'.dat','w')
-	for i in range(1,asize[p]):
-		ff.write(str(i)+'\t'+str(M1[p][i]/nof)+'\t'+str(M2[p][i]/nof)+'\t'+str(M3[p][i]/nof)+'\t'+str(M4[p][i]/nof)+'\t'+str(M5[p][i]/nof)+'\t'+str(M6[p][i]/nof)+'\t'+str(M7[p][i]/nof)+'\t'+str(M8[p][i]/nof)+'\n')
-	
 
 for k in range(noc):
 	for p in range(asize[k]-1):

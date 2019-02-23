@@ -2,6 +2,7 @@
 #from pylab import *
 import numpy as np 
 
+'''
 import os 
 answer = os.path.isdir('ContactPb1')
 
@@ -21,7 +22,7 @@ fw=[]
 for i in range(46):
 	fw.append(open('SpatialDistance/Spatial_Chr_'+str(i+1)+'.dat','w'))
 
-
+'''
 
 
 asize=[249,243,199,191,182,171,160,146,139,134,136,134,115,107,102,91,84,81,59,65,47,51,157,249,243,199,191,182,171,160,146,139,134,136,134,115,107,102,91,84,81,59,65,47,51,157]
@@ -29,7 +30,23 @@ csize=np.cumsum(asize)
 natoms=csize[-1]+1
 noc=46  ### number of chromosome 
 
-print csize 
+
+tsize=[0]+list(csize)
+
+
+
+
+f=open('GM1.dat')
+
+temp=[]
+for line in f:
+	l=line.split()
+	temp.append(int(l[1]))
+
+active_inactive=temp+temp 
+
+
+
 
 '''
 CMatrix=[]
@@ -40,7 +57,7 @@ for i in range(noc):
 	CMatrix.append(array)
 '''
 
-startPos=9991
+startPos=5001
 endPos=10001+1
 
 M1=np.zeros((46,250),dtype=np.float)
@@ -61,7 +78,7 @@ for i in range(46):
 
 nof=0.0	
 
-for filen in range(startPos,endPos,20):
+for filen in range(startPos,endPos,50):
 	nof+=1
 	name='my/file'+str(filen)+'.dat'
 	f=open(name)
@@ -82,55 +99,53 @@ for filen in range(startPos,endPos,20):
 					chromosome[chro-1][int(l[0])-start-1,:]=[float(l[3]),float(l[4]),float(l[5])]
 			
 
+	M=np.zeros((noc,noc,3),dtype=np.float)
 	for p in range(noc):
-		count=np.zeros((asize[p]),dtype=np.float)
-		M=np.zeros((asize[p]),dtype=np.float)
-		for i in range(asize[p]-1):
-			for j in range(i+1,asize[p]):
+		for q in range(p+1,noc):
+			#count=np.zeros((asize[p]),dtype=np.float)
+			for i in range(asize[p]):
+				for j in range(asize[q]):
 					#print p,i,j
-					sub_vec=np.subtract(chromosome[p][i],chromosome[p][j])
+					sub_vec=np.subtract(chromosome[p][i],chromosome[q][j])
 					dist=np.linalg.norm(sub_vec)
+					#print p+1,q+1, i+tsize[p]+1, j+tsize[q]+1
 					
-					if dist<=1.0:
-						M1[p][j-i]+=1
-					if dist<=1.25:
-						M2[p][j-i]+=1					
-					if dist<=1.5:
-						M3[p][j-i]+=1
-					if dist<=1.75:
-						M4[p][j-i]+=1
-					if dist<=2.0:
-						M5[p][j-i]+=1					
+												
 					if dist<=2.5:
-						M6[p][j-i]+=1
-					if dist<=3.0:
-						M7[p][j-i]+=1
-					if dist<=4.0:
-						M8[p][j-i]+=1
-
-					M[j-i]+=dist
-					count[j-i]+=1.0
-		value[p]+=M[1:]/count[1:]
+						if (active_inactive[i+tsize[p]]!=1)&(active_inactive[j+tsize[q]]!=1):  # AA 
+							M[p][q][0]+=1
 			
-		
-	
+						if (active_inactive[i+tsize[p]]==1)&(active_inactive[j+tsize[q]]==1):  # BB 
+							M[p][q][1]+=1
+
+						if (active_inactive[i+tsize[p]]!=1)&(active_inactive[j+tsize[q]]==1):  # AB 
+							M[p][q][2]+=1
+
+						if (active_inactive[i+tsize[p]]==1)&(active_inactive[j+tsize[q]]!=1):  # BA 
+							M[p][q][2]+=1
+					
+
+					
+			
+
 
 				
 	
-
+f1=open('InterminglingAA.dat','w')
+f2=open('InterminglingBB.dat','w')
+f3=open('InterminglingAB.dat','w')
 
 print "no of frame ", nof
 
 
 for p in range(noc):
-	ff=open('ContactPb1/contact'+str(p+1)+'.dat','w')
-	for i in range(1,asize[p]):
-		ff.write(str(i)+'\t'+str(M1[p][i]/nof)+'\t'+str(M2[p][i]/nof)+'\t'+str(M3[p][i]/nof)+'\t'+str(M4[p][i]/nof)+'\t'+str(M5[p][i]/nof)+'\t'+str(M6[p][i]/nof)+'\t'+str(M7[p][i]/nof)+'\t'+str(M8[p][i]/nof)+'\n')
-	
-
-for k in range(noc):
-	for p in range(asize[k]-1):
-		fw[k].write(str(p+1)+'\t'+str(value[k][p]/nof)+'\n') 
+	for q in range(noc):
+		f1.write(str(M[p][q][0]/nof)+'\t')
+		f2.write(str(M[p][q][1]/nof)+'\t')
+		f3.write(str(M[p][q][2]/nof)+'\t')
+	f1.write('\n')
+	f2.write('\n')
+	f3.write('\n')	
 
 
 
