@@ -10,7 +10,7 @@ else:
 
 f=open('DUMP_NVE.lammpstrj')
 fw=open('txt','w')
-index=1
+index=4001
 for line in f:
 	if line.find('ITEM: TIMESTEP')!=-1:
 		fw.close()

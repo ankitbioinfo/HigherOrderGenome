@@ -4,6 +4,7 @@ import numpy
 f=open('output.com')
 cont=f.readlines()
 
+radius=17.2
 
 def Expectation(x,p):
 	tot=0.0    ## p is the y 
@@ -11,7 +12,7 @@ def Expectation(x,p):
 		tot+=x[i]*p[i]
 	return tot/sum(p)
 
-interval=numpy.linspace(0,22,200)
+interval=numpy.linspace(0,radius+2,200)
 chr_array=[]
 for i in range(47):
 	array=[]
@@ -48,7 +49,7 @@ for j in range(1,47):
 	for i in range(len(interval)):
 		chr_array[j][i]=chr_array[j][i]/float(noOfFrame)
 
-radius=20.16
+
 binsize=interval[1]-interval[0]
 for j in range(1,47):
 	sum1=0.0
