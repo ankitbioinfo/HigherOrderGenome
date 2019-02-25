@@ -1,11 +1,12 @@
 # HigherOrderGenome
-Most of these codes are used for plotting nice figures for publication.  
+Most of these codes can be used for plotting nice figures for publication.  
 
 
-These codes are used for plotting figure of this paper. 
+These codes are mainly used for plotting figures of this paper. 
 https://www.biorxiv.org/content/10.1101/315812v1
 
-Matlab figures plots nice subplots. In these subplots you can plot anything. 
+Matlab codes generate nice subplots. 
+In these subplots you can plot any variable of your interest.  
 You can use any snippet or whole code for your own use. 
 
 Python codes are used for generating the plotting data from simulation data. 
