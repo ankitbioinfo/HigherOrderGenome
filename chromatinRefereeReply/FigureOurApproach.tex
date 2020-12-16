@@ -1,0 +1,36 @@
+\documentclass[border=1mm,
+               class=article
+                ]{standalone}
+
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}
+\node[inner sep=0pt] (a) at (-5.5,-0.7) 
+    {\includegraphics[width=.4\textwidth]{NirmalenduDensity7.pdf}};
+\node[inner sep=0pt] (a) at (-5.5,1.5) {\textbf{\Large{Gencode}}};
+
+
+\node[inner sep=0pt] (a) at (-5.5,2.5){ \underline{\textcolor{blue}{\Large{Gene density}}}};
+\node[inner sep=0pt] (a) at (0.7,2.5) {\underline{\textcolor{blue}{\Large{Gene expression}}}};
+\node[inner sep=0pt] (a) at (6.5,2.5) {\underline{\textcolor{blue}{\Large{Combined}}}};
+
+
+\node[inner sep=0pt] (b) at (0,0)
+    {\includegraphics[width=.45\textwidth]{exp1.png}};
+\node[inner sep=0pt] (a) at (0,-2.5) 
+    {\includegraphics[width=.45\textwidth]{exp2.png}};
+
+
+
+
+\node[inner sep=0pt] (b) at (5.9,0)
+    {\includegraphics[width=.45\textwidth]{temp1.png}};
+\node[inner sep=0pt] (a) at (5.9,-2.5) 
+    {\includegraphics[width=.45\textwidth]{temp2.png}};
+
+
+\end{tikzpicture}
+\end{document}
