@@ -3,7 +3,7 @@ Most of these codes can be used for plotting nice figures for publication.
 
 
 These codes are mainly used for plotting figures of this paper. 
-https://www.biorxiv.org/content/10.1101/315812v1
+https://www.sciencedirect.com/science/article/pii/S0006349519309403
 
 Matlab codes generate nice subplots. 
 In these subplots you can plot any variable of your interest.  
